@@ -4,14 +4,16 @@ email: david.federman@outlook.com
 description: Some guy's programming blog.
 baseurl: ""
 url: "https://dfederm.com/"
-github_username:  dfederm
 
 # Site settings
 permalink: /:title
 markdown: kramdown
-theme: minima # Supported themes: https://pages.github.com/themes/
+paginate: 5
+paginate_path: "/:num/"
+date_format: "%b %-d, %Y"
 
 plugins:
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-seo-tag
   - jekyll-sitemap

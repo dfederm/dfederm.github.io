@@ -2,7 +2,8 @@
 layout: post
 title: HttpClient and Unit Testing
 date: 2018-01-28 14:32
-categories: [c#, Programming, testing]
+categories: [.NET]
+tags: [.NET, testing]
 ---
 If you've written C# which uses `HttpClient` and tried to unit test it, you probably noticed that it's not the easiest thing in the world to mock out. If [this github issue](https://github.com/dotnet/corefx/issues/1624){:target="_blank"} is any indication, many developers don't find it particularly easy either. It's certainly not impossible, but it requires learning about some of the internals of `HttpClient`, such as `HttpMessageHandler` as the `HttpClient` is designed as just a wrapper around these things.
 

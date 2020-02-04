@@ -2,7 +2,8 @@
 layout: post
 title: Migrating from WebCORE to Home Assistant
 date: 2019-07-11 20:43
-categories: [alexa, automation, home assistant, home automation, Programming, smart home, webcore, z-wave]
+categories: [Home Automation]
+tags: [alexa, automation, home assistant, home automation, smart home, webcore, z-wave]
 ---
 About a month ago I decided to migrate all my home automation from [WebCORE](https://www.webcore.co/){:target="_blank"} to [Home Assistant](https://home-assistant.io){:target="_blank"}. I liked the idea of all my home automation being local and inside my house, both from a security and reliability perspective. Furthermore it just seemed like a fun project to tinker with, and in general seemed like it would add a bunch of flexibility to my home automation. In this post I'll describe my experience with the migration, the good and the bad.
 
