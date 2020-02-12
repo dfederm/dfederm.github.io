@@ -4,6 +4,7 @@ title: Trimming Unnecessary Dependencies from Projects
 date: 2018-02-19 14:34
 categories: [.NET]
 tags: [.NET, dependencies, msbuild, references]
+comments: true
 ---
 When you're working in large repositories with hundreds of [MsBuild](https://github.com/Microsoft/msbuild){:target="_blank"} projects, you're bound to have fairly complex build graphs. Over time, these can devolve and you may end up with lots of dependencies between projects which are no longer needed. This can cause builds to slow down as they are less parallelizable, and the developer experience can suffer as you unnecessarily rebuild libraries which have falsely depend on libraries you changed.
 

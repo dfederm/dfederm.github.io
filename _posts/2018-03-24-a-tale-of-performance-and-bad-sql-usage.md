@@ -4,6 +4,7 @@ title: A Tale of Performance and Bad SQL Usage
 date: 2018-03-24 08:51
 categories: [.NET]
 tags: [.NET, application insights, performance, sql, telemetry]
+comments: true
 ---
 The other day I was looking at telemetry for one of my [websites](https://clickerheroestracker.azurewebsites.net/){:target="_blank"} to try and finally figure out why I was running into my telemetry cap, which I had been putting off for a while. I'm on the free [Application Insights](https://azure.microsoft.com/en-us/services/application-insights/){:target="_blank"} tier, so I only get 1 GB a month and was needing to sample to only 4% of traffic to remain under the cap, which didn't seem right considering the traffic that site gets.
 

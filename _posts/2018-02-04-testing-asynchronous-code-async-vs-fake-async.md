@@ -4,6 +4,7 @@ title: "Testing asynchronous code: async vs fake async"
 date: 2018-02-04 10:12
 categories: [Angular, Typescript]
 tags: [angular, async, .NET, testing, typescript]
+comments: true
 ---
 In the [last post]({% post_url 2018-01-28-httpclient-and-unit-testing %}) I explored implementing a mock which tested asynchronous code in a "fake" asynchronous way, and I promised to dive a little deeper into that concept and compare it with testing in an asynchronous way.
 

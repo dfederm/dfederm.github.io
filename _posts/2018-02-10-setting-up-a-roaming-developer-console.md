@@ -4,6 +4,7 @@ title: Setting up a Roaming Developer Console
 date: 2018-02-10 17:04
 categories: [Developer Environment]
 tags: [autorun, cmd, command prompt, console, developer command prompt, developer console, onedrive, powershell]
+comments: true
 ---
 Have you ever wanted to have your personal scripts and aliases just always available to you in any console session? Well, it's possible!
 

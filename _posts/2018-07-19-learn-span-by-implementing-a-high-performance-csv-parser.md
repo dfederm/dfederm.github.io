@@ -4,6 +4,7 @@ title: Learn Span<T> by Implementing a high-performance CSV Parser
 date: 2018-07-19 21:14
 categories: [.NET]
 tags: [.NET, memory, performance, span]
+comments: true
 ---
 Ever since I [first](https://channel9.msdn.com/Events/Connect/2017/T125){:target="_blank"} [heard](https://msdn.microsoft.com/en-us/magazine/mt814808.aspx?f=255&MSPPError=-2147217396){:target="_blank"} [about](https://github.com/dotnet/corefxlab/blob/master/docs/specs/span.md){:target="_blank"} [`Span<T>`](http://adamsitnik.com/Span/){:target="_blank"}, I've been wanting play around with using it. It's a [`ref struct`](https://docs.microsoft.com/en-us/dotnet/csharp/reference-semantics-with-value-types#ref-struct-type){:target="_blank"}, so the semantics of using this type and the restrictions that go along with it are best understood by actually trying to use it. So I decided to build a simple CSV parser and see how the performance compared to other mainstream CSV parsers.
 
