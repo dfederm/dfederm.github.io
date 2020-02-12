@@ -16,6 +16,7 @@ disqus:
   shortname: dfederm
 
 google_analytics: UA-158306797-1
+google_ads: ca-pub-7807152857287265
 
 plugins:
   - jekyll-feed
