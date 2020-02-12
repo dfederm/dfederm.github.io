@@ -3,10 +3,10 @@ title: David's Blog
 email: david.federman@outlook.com
 description: Some guy's programming blog.
 baseurl: ""
-url: "https://dfederm.com/"
+url: "https://dfederm.com"
 
 # Site settings
-permalink: /:title
+permalink: /:title/
 markdown: kramdown
 paginate: 5
 paginate_path: "/:num/"
