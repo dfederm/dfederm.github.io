@@ -1,7 +1,6 @@
 ---
 layout: post
 title: A Tale of Performance and Bad SQL Usage
-date: 2018-03-24 08:51
 categories: [.NET]
 tags: [.NET, application insights, performance, sql, telemetry]
 comments: true

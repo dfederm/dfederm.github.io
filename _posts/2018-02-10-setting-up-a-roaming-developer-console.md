@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Setting up a Roaming Developer Console
-date: 2018-02-10 17:04
 categories: [Developer Environment]
 tags: [autorun, cmd, command prompt, console, developer command prompt, developer console, onedrive, powershell]
 comments: true

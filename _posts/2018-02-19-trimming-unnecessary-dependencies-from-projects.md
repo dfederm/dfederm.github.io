@@ -1,8 +1,7 @@
 ---
 layout: post
 title: Trimming Unnecessary Dependencies from Projects
-date: 2018-02-19 14:34
-categories: [.NET]
+categories: [.NET, MSBuild]
 tags: [.NET, dependencies, msbuild, references]
 comments: true
 ---

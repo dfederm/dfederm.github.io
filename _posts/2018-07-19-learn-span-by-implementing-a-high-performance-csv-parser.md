@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Learn Span<T> by Implementing a high-performance CSV Parser
-date: 2018-07-19 21:14
 categories: [.NET]
 tags: [.NET, memory, performance, span]
 comments: true

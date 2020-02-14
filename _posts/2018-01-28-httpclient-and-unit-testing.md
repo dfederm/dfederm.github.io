@@ -1,7 +1,6 @@
 ---
 layout: post
 title: HttpClient and Unit Testing
-date: 2018-01-28 14:32
 categories: [.NET]
 tags: [.NET, testing]
 comments: true

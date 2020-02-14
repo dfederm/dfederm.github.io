@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Testing asynchronous code: async vs fake async"
-date: 2018-02-04 10:12
 categories: [Angular, Typescript]
 tags: [angular, async, .NET, testing, typescript]
 comments: true
