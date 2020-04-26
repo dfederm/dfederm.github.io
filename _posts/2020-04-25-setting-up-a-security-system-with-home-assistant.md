@@ -6,10 +6,10 @@ tags: [automation, home assistant, home automation, smart home, ifttt, z-wave]
 comments: true
 ---
 
-I've been [dabbling with home automation]({% post_url 2019-07-11-migrating-from-webcore-to-home-assistant %}) for a while, and one thing that bugged me was that my home security system didn't integrate with it at all. Doors and windows being opened seemed like something I would want to be available to me in [Home Assistant](https://www.home-assistant.io/){:target="_blank"}, but the ADT system I had was completely closed despite being wireless. Instead of duplicating the sensors, I decided to ditch ADT and just completely do it myself. As a bonus, it's saving me $50/month.
+I've been [dabbling with home automation]({% post_url 2019-07-11-migrating-from-webcore-to-home-assistant %}) for a while, and one thing that bugged me was that my home security system didn't integrate with it at all. Doors and windows being opened seemed like something I would want to be available to me in [Home Assistant](https://www.home-assistant.io/){:target="_blank"}, but the ADT system I had was completely closed despite being wireless. Instead of duplicating the sensors, I decided to ditch ADT and just completely do it myself. As a bonus, it's saving me $50/month (although to be fair they offered a substantial discount to entice me to stay upon cancelling).
 
 ## Devices
-Admittedly, there was a bit of an up front cost in buying all the devices to replace my existing ones, especially since I decided to go with [Z-Wave](https://www.z-wave.com/){:target="_blank"} devices for my home, which are a little more expensive than [Zigbee](https://zigbeealliance.org/){:target="_blank"} ones.
+Admittedly, there was a bit of an up front cost in buying all the devices to replace my existing ones, especially since I decided to go with [Z-Wave](https://www.z-wave.com/){:target="_blank"} devices for my home, which are a little more expensive than [Zigbee](https://zigbeealliance.org/){:target="_blank"} ones. However, this can be mitigated by prioritizing the important sensors first and adding on over time. Also, for me at least it more than made up for the cost in just a few months after cancelling my monthly bill with ADT.
 
 My original security system was pretty basic, so I just ended up mimicking it. The devices I bought were:
 * [Aeotec Door/Window Sensors](https://www.amazon.com/gp/product/B01GK5D1PE){:target="_blank"} - At the time I bought the Gen5 ones which no longer seem available, and the Gen6 ones looks pretty bulky and expensive. Any basic window/door sensor would do here though.
@@ -22,12 +22,12 @@ Some relevant devices I already had before this project are:
 * [Schlage Z-Wave Connect Locks](https://www.amazon.com/gp/product/B00AGK9KOG){:target="_blank"} - These work great. They're battery powered but last at least a year. Made by a company specializing in locks and they feel solid and secure.
 * [Alexa Echo Dot](https://www.amazon.com/Echo-Dot/dp/B07FZ8S74R){:target="_blank"} - Used with the [alexa_media_player](https://github.com/custom-components/alexa_media_player){:target="_blank"} custom component for voice notifications.
 
-## Home Assistant alarm control panel
-[Home Assistant](https://www.home-assistant.io/){:target="_blank"} has a built-in [Manual Alarm Control Panel](https://www.home-assistant.io/integrations/manual) which allows you to display a keypad in the lovelace UI as well as use automations to arms and disarm the alarm.
+## Home Assistant configuration
+[Home Assistant](https://www.home-assistant.io/){:target="_blank"} has a built-in [Manual Alarm Control Panel](https://www.home-assistant.io/integrations/manual){:target="_blank"} which allows you to display a keypad in the lovelace UI as well as use automations to arms and disarm the alarm.
 
 ### The basics
 
-The alarm configuration is a little complicated, but basically it's just a state machine. At any given time, the alarm can be `disarmed`, `armed_home`, `armed_away`, `pending`, or `triggered`. The difference between `armed_away` and `armed_home` is that `armed_away` gives you some time to leave the house and also some time to disarm when you come back. I chose to give a 2 minute delay when leaving the house and a 1 minute delay when coming home. The `pending` state is what it's in during these delays. `disarmed` and `triggered` should be obvious; they're when the alarm is turned off and "the alarm is sounding", respectively. 
+The alarm configuration is a little complicated, but basically it's just a state machine. At any given time, the alarm can be `disarmed`, `armed_home`, `armed_away`, `pending`, or `triggered`. The difference between `armed_away` and `armed_home` is that `armed_away` gives you some time to leave the house and also some time to disarm when you come back. I chose to give a 2 minute delay when leaving the house and a 1 minute delay when coming home. The `pending` state is what it's in during these delays. `disarmed` and `triggered` should be obvious; they're when the alarm is turned off and "the alarm is sounding", respectively.
 
 You can use my `alarm_control_panel` configuration as a starting point, which looks like this:
 
@@ -117,9 +117,9 @@ Personally, I don't have the Z-Wave locks auto-arm/disarm the alarm, although yo
 
 Finally, just add an Alarm Panel card to your Lovelace which points to your `alarm_control_panel`.
 
-![Alarm Control Panel UI](/assets/alarm-ui.png)
+![Alarm Control Panel UI](/assets/alarm-ui.png){: .center }
 
-And that's it! At least for the basics.
+And that's it! At least for the basics. A few more peices were needed to fully replace my old system and pass the "wife test".
 
 ### Monitoring with Noonlight
 
@@ -236,7 +236,27 @@ timer:
 
 The final step in this project was to set up a wall panel so that we didn't have to use our phones to disarm the alarm.
 
-For this, I bought another Raspberry Pi 3 B+, as well as a [touch screen Display](https://www.amazon.com/gp/product/B0153R2A9I){:target="_blank"} and 
-[touch screen Case](https://www.amazon.com/gp/product/B01GQFUWIC){:target="_blank"}. Mounting a tablet probably would have been just as easy and cheaper if I already had an old one lying around.
+![Mounted alarm panel](/assets/alarm-panel-mounted.jpg){: .center }
 
-TODO
+For this, I bought another Raspberry Pi 3 B+, as well as a [touch screen Display](https://www.amazon.com/gp/product/B0153R2A9I){:target="_blank"} and
+[touch screen Case](https://www.amazon.com/gp/product/B01GQFUWIC){:target="_blank"}. Mounting a tablet probably would have been just as easy and cheaper if I already had an old one lying around, but I didn't.
+
+There are plenty of guides out there for setting up a Raspberry Pi in kiosk mode, and I honestly wouldn't consider myself an expert in this area, but the gist is that I installed Raspbian Lite, setup ssh for easy remoting, installed `chromium-browser`, and added the following to `~/.config/lxsession/LXDE/autostart`:
+
+```sh
+# Prevent screen blanking
+@xset s off
+@xset -dpms
+@xset s noblank
+
+# Ensure chromium thinks it shut down cleanly, even if it didn't to prevent tab restore warnings.
+@sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
+@sed -i 's/"exit_type":"Crashed"/"exit_type":"Normal"/' ~/.config/chromium/Default/Preferences
+
+# Launch the web browser in kiosk mode
+@chromium-browser --kiosk --disable-translate --noerrdialogs --disable-pinch https://<url-to-my-home-assistant>/lovelace/1
+```
+
+Note the url used when launching chromium. I used my external hostname so that chromium doesn't complain about the SSL cert, but I use a [Pi-hole](https://pi-hole.net/){:target="_blank"} to redirect that host to the local IP anyway so it's not actually calling externally. There might have been an easier way to bypass the cert error and use the local IP directly, but this worked for me. Also note that the `/lovelace/1` path is so that it shows my 2nd Lovelace tab, which is the one I have the alarm panel card on.
+
+Upon first boot you'll have to log in, so be sure to attach a keyboard and mouse before mounting. I set up a separate user in Home Assistant to log into the alarm panel so that it didn't run as my user, an Administrator (although Home Assistant doesn't have very granular permissions; maybe in the future). And although I haven't set it up yet, now that Home Assistant has [multiple Lovelace dashboards](https://www.home-assistant.io/blog/2020/03/18/release-107/#hello-multiple-lovelace-dashboards){:target="_blank"}, I could easily add a specific dashboard for this scenario.

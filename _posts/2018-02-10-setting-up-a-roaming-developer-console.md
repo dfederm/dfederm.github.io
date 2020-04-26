@@ -67,7 +67,7 @@ Again, for PowerShell users, you can just as easily put similar things in your `
 While this doesn't look like much, it sets up a few aliases for me, and adds my `Code\Scripts` OneDrive folder to my `PATH`. I have other convenience scripts
 and tools which don't require an install under this path as well:
 
-![Example tools](/assets/devconsole-scripts-path-300x223.png)
+![Example tools](/assets/devconsole-scripts-path-300x223.png){: .center }
 
 To give an idea of some of the things I have in mine:
 *   [`handle.exe`](https://docs.microsoft.com/en-us/sysinternals/downloads/handle){:target="_blank"} - Helps identify which stubborn process has an open handle on a file.
