@@ -40,7 +40,7 @@ alarm_control_panel:
     code_arm_required: false
     # Arm again after triggering
     disarm_after_trigger: false
-    # Due to the complexity, ensure these are overriden by the required states below
+    # Due to the complexity, ensure these are overridden by the required states below
     pending_time: 0
     delay_time: 0
     # Amount of time the alarm is triggered for
@@ -54,7 +54,7 @@ alarm_control_panel:
       # Leave no delay before triggering
       delay_time: 0
     armed_away:
-      # Delay from arming and becomming armed. The delay to leave the house.
+      # Delay from arming and becoming armed. The delay to leave the house.
       pending_time: 120
       # Allow time to disarm the alarm when arriving home
       delay_time: 60
@@ -119,13 +119,13 @@ Finally, just add an Alarm Panel card to your Lovelace which points to your `ala
 
 ![Alarm Control Panel UI](/assets/alarm-ui.png){: .center }
 
-And that's it! At least for the basics. A few more peices were needed to fully replace my old system and pass the "wife test".
+And that's it! At least for the basics. A few more pieces were needed to fully replace my old system and pass the "wife test".
 
 ### Monitoring with Noonlight
 
-One of the primary advantages to paying a security company is that if your alarm goes off, there's a real human being who will notice and call you to make sure eveything is OK, and call the police if it's not.
+One of the primary advantages to paying a security company is that if your alarm goes off, there's a real human being who will notice and call you to make sure everything is OK, and call the police if it's not.
 
-Luckily, there's a company out there called [Noonlight](https://www.noonlight.com/){:target="_blank"} which will do that for free! I've tested the system many times, usually accidentally, and they're incredibly quick (sometimes TOO quick for my mnay false alarms...) to call to make sure everything is OK. I honestly don't know how they make money.
+Luckily, there's a company out there called [Noonlight](https://www.noonlight.com/){:target="_blank"} which will do that for free! I've tested the system many times, usually accidentally, and they're incredibly quick (sometimes TOO quick for my many false alarms...) to call to make sure everything is OK. I honestly don't know how they make money.
 
 To configure this, you'll first need to add Noonlight to your [IFTTT](https://ifttt.com/){:target="_blank"} account, and enable the [IFTTT integration in Home Assistant](https://www.home-assistant.io/integrations/ifttt/){:target="_blank"} for sending events. For the latter, the configuration should look like:
 
@@ -134,7 +134,7 @@ ifttt:
   key: !secret ifttt_key
 ```
 
-Then, to set up the IFTTT applet, you'll want to use Webooks "Receive a web request" as the trigger, and Noonlight's "Trigger alarm with address" as the action. Be sure to note the Webhooks event name you use. Im my case, I use "alarm_triggered".
+Then, to set up the IFTTT applet, you'll want to use Webhooks "Receive a web request" as the trigger, and Noonlight's "Trigger alarm with address" as the action. Be sure to note the Webhooks event name you use. Im my case, I use "alarm_triggered".
 
 Now you simply need to add this IFTTT trigger action with the correct event name to your alarm trigger automation. Adding to the example used earlier, it looks like this:
 
@@ -155,7 +155,7 @@ Now you simply need to add this IFTTT trigger action with the correct event name
 
 ### Voice warnings
 
-My old alarm system would emit an audible tone when we came home and the alarm would be triggering within a minute or two. Originally when I replaced with with the solution described above, my wife and I would forget about it sometimes and then suddenly the siren would go off.
+My old alarm system would emit an audible tone when we came home to warn us that the alarm would be triggering within a minute or two. Originally when I replaced this with the solution described above, my wife and I would forget about it sometimes and then suddenly the siren would go off.
 
 To help remind us, I implemented a warning system when we come home which announces through our Alexa Dot.
 
