@@ -6,6 +6,8 @@ tags: [automation, home assistant, home automation, smart home, ifttt, z-wave]
 comments: true
 ---
 
+**Update {{ "2020-06-03" | date: site.date_format }}:** Adjusted for breaking changes in version 0.110.
+
 I've been [dabbling with home automation]({% post_url 2019-07-11-migrating-from-webcore-to-home-assistant %}) for a while, and one thing that bugged me was that my home security system didn't integrate with it at all. Doors and windows being opened seemed like something I would want to be available to me in [Home Assistant](https://www.home-assistant.io/){:target="_blank"}, but the ADT system I had was completely closed despite being wireless. Instead of duplicating the sensors, I decided to ditch ADT and just completely do it myself. As a bonus, it's saving me $50/month (although to be fair they offered a substantial discount to entice me to stay upon cancelling).
 
 ## Devices
@@ -27,7 +29,7 @@ Some relevant devices I already had before this project are:
 
 ### The basics
 
-The alarm configuration is a little complicated, but basically it's just a state machine. At any given time, the alarm can be `disarmed`, `armed_home`, `armed_away`, `pending`, or `triggered`. The difference between `armed_away` and `armed_home` is that `armed_away` gives you some time to leave the house and also some time to disarm when you come back. I chose to give a 2 minute delay when leaving the house and a 1 minute delay when coming home. The `pending` state is what it's in during these delays. `disarmed` and `triggered` should be obvious; they're when the alarm is turned off and "the alarm is sounding", respectively.
+The alarm configuration is a little complicated, but basically it's just a state machine. At any given time, the alarm can be `disarmed`, `arming`, `armed_home`, `armed_away`, `pending`, or `triggered`. The difference between `armed_away` and `armed_home` is that `armed_away` gives you some time to leave the house and also some time to disarm when you come back. I chose to give a 2 minute delay when leaving the house and a 1 minute delay when coming home. The `arming` and `pending` states are what it's in during these delays. `disarmed` and `triggered` should be obvious; they're when the alarm is turned off and "the alarm is sounding", respectively.
 
 You can use my `alarm_control_panel` configuration as a starting point, which looks like this:
 
@@ -40,27 +42,20 @@ alarm_control_panel:
     code_arm_required: false
     # Arm again after triggering
     disarm_after_trigger: false
-    # Due to the complexity, ensure these are overridden by the required states below
-    pending_time: 0
-    delay_time: 0
+    # Delay from arming and becoming armed, eg. to leave the house.
+    arming_time: 120
+    # Allow time to disarm the alarm before it triggers, eg. when arriving home
+    delay_time: 60
     # Amount of time the alarm is triggered for
     trigger_time: 600
     disarmed:
       # Ensure the alarm can never be directly triggered when disarmed
       trigger_time: 0
     armed_home:
-      # Leave no delay between arming and it being armed
-      pending_time: 0
-      # Leave no delay before triggering
+      # Leave no delay between arming -> armed
+      arming_time: 0
+      # Leave no delay between pending -> triggered
       delay_time: 0
-    armed_away:
-      # Delay from arming and becoming armed. The delay to leave the house.
-      pending_time: 120
-      # Allow time to disarm the alarm when arriving home
-      delay_time: 60
-    triggered:
-      # No further delay before triggering. Only use the previous state's delay_time
-      pending_time: 0
 ```
 
 Now that you have the alarm configuration, you need to set up some automations to actually handle transitioning between the states. For example, if the alarm is armed and a door opens, you want to trigger the alarm. Also one the alarm triggers, you want to set off sirens, send notifications, call the police, etc.
