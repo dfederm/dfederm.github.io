@@ -6,7 +6,7 @@ tags: [.NET, console, CLI, generic host]
 comments: true
 ---
 
-The [.NET Generic Host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host){:target="_blank"} is a feature which sets up some convenient patterns for an application including those for [dependency injection (DI)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection){:target="_blank"}, [logging](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging){:target="_blank"}, and [configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration){:target="_blank"}. It was originally named Web Host and intended for Web scenarios like ASP.NET Core applications but has since been generalized (hence the rename to *Generic* Host) to support other scenarios, such as Windows services, Linux daemon service, or even a console app.
+The [.NET Generic Host](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host){:target="_blank"} is a feature which sets up some convenient patterns for an application including those for [dependency injection (DI)](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection){:target="_blank"}, [logging](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging){:target="_blank"}, and [configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration){:target="_blank"}. It was originally named Web Host and intended for Web scenarios like ASP.NET Core applications but has since been generalized (hence the rename to *Generic* Host) to support other scenarios, such as Windows services, Linux daemon services, or even a console app.
 
 A working example can be found at [dfederm/GenericHostConsoleApp](https://github.com/dfederm/GenericHostConsoleApp){:target="_blank"}.
 
@@ -32,7 +32,7 @@ internal sealed class Program
 }
 ```
 
-Running that alone will start up the host, but without any logic it will do nothing and never exit. The generic host simply sets up some reasonable defaults around configuration and logging, as well as provides a few services in the DI container which handle the the application lifetime. Calling `RunConsoleAsync` will run start the host and wait for a `Ctrl+C` or `SIGTERM` to exit, which means without explicitly telling the app to exit, it will not exit.
+Running that alone will start up the host, but without any logic it will do nothing and never exit. The generic host simply sets up some reasonable [defaults](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host#default-builder-settings){:target="_blank"} around configuration and logging, as well as provides a few services in the DI container which handle the the application lifetime. Calling `RunConsoleAsync` will run start the host and wait for a `Ctrl+C` or `SIGTERM` to exit, which means without explicitly telling the app to exit, it will not exit.
 
 To actually implement your console app's logic, and get the application to exit after it's done, you'll want to implement and register an `IHostedService`, as well as interact with the `IHostApplicationLifetime` from the DI container.
 
@@ -102,7 +102,7 @@ internal sealed class ConsoleHostedService : IHostedService
 
 Other useful events to subscribe to on the `IHostApplicationLifetime` are `ApplicationStopping` and `ApplicationStopped`.
 
-Note that you can registrer multiple `IHostedService` implementations and each of them will have their `StartAsync` and `StopAsync` methods call. However, personally I find that to be a bit confusing for a console application.
+Note that you can registrer multiple `IHostedService` implementations and each of them will have their `StartAsync` and `StopAsync` methods called. However, personally I find that to be a bit confusing for a console application, so I would just stick to a single `IHostedService`.
 
 ## Dependency Injection
 
@@ -219,7 +219,7 @@ To return a non-zero exit code, your `IHostedService` implementation can set `En
 ```
 
 ## Logging and Configuration
-Logging and configuration work mostly just as they do in Web applications. The one caveat is that `appsettings.json` is loaded from the content root, which by default is the current working directory, so the content root needs to be set to the same directly the executable is in using `UseContentRoot`.
+Logging and configuration work mostly just as they do in Web applications. The one caveat is that because `appsettings.json` is loaded from the content root, which for the Generic Host is the current working directory by default, the content root needs to be set to the same directly the executable is in using `UseContentRoot`.
 
 In `Main`:
 ```cs
