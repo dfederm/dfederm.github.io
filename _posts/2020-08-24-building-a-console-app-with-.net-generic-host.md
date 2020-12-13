@@ -12,7 +12,7 @@ A working example can be found at [dfederm/GenericHostConsoleApp](https://github
 
 ## Basics
 
-You will first need to create a new console application and add a `PackageReference` to `[Microsoft.Extensions.Hosting`](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/){:target="_blank"}.
+You will first need to create a new console application and add a `PackageReference` to [`Microsoft.Extensions.Hosting`](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/){:target="_blank"}.
 
 ```
 dotnet new console
