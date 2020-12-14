@@ -20,7 +20,7 @@ The log viewer has a few options on the start page, but the only one with major 
 
 ## Producing binary logs
 
-As the binary logger is build-into MSBuild, enabling it is as simple as using command-line option `-binaryLogger`, or `-bl` for short, eg. As with other MSBuild command-line options, it works with the `dotnet` CLI.
+As the binary logger is build-into MSBuild, enabling it is as simple as using command-line option `-binaryLogger`, or `-bl` for short. As with other MSBuild command-line options, it works with the `dotnet` CLI.
 
 When a specific file is not provided, it defaults to dropping an `msbuild.binlog` in the current directory.
 
@@ -57,13 +57,13 @@ There is quite a bit of top-level information, including:
 
 There is a search feature which can help if you know the property, item, target, or file name you're interested in. In addition to just text searching, you can also filter by kind of thing, for example just searching properties.
 
-For a given target, there is another target listed to the right which explains why the target executed. If you hover, you can see specificially whether it was because of `BeforeTargets`, `AfterTargets`, or `DependsOnTargets`. You can also tell whether the target actually executed based on its condition by whether it's dimmed.
+For a given target, there is another target listed to the right which explains why the target executed. If you hover, you can see specifically whether it was because of `BeforeTargets`, `AfterTargets`, or `DependsOnTargets`. You can also tell whether the target actually executed based on its condition by whether it's dimmed.
 
-A non-obvious trick is that if you double-click on a project or target, it will open the file it's contained in. This can help give you a glance into the logic of the target. You can take this a bit further and right-click on a project and select "Prepocess", which will give you the completely flattened xml for the entire project, exactly like the `-pp` MSBuild switch. The preprocess can be extremely helpful in undertanding the build logic.
+A non-obvious trick is that if you double-click on a project or target, it will open the file it's contained in. This can help give you a glance into the logic of the target. You can take this a bit further and right-click on a project and select "Prepocess", which will give you the completely flattened XML for the entire project, exactly like the `-pp` MSBuild switch. The preprocess can be extremely helpful in understanding the build logic.
 
 As a general guide, you will mostly rely on the target execution log for determine what happened, while the preprocess will help answer why it happened. For example, the target execution log will show that a property was set to some specific value, while the preprocess will show the logic of why it was set to that value.
 
-An interesting detail about the implicit restore you can observe is that there is a global property `MSBuildRestoreSessionId` set. This is because during the restore, packages may not have been downloaded yet and thus any build logic which should be imported from packages may be missing. Setting a global property to an effectively random value forces the restore to be evaluated and execute in a completely separate context than the the default targets. Then after restore when the default targets execute, it requires a new evaluation and imports from packages will actually be available. I'll go into more details about how restore and how `PackageReference` works in a future post.
+An interesting detail about the implicit restore you can observe is that there is a global property `MSBuildRestoreSessionId` set. This is because during the restore, packages may not have been downloaded yet and thus any build logic which should be imported from packages may be missing. Setting a global property to an effectively random value forces the restore to be evaluated and execute in a completely separate context from the default targets. Then after restore when the default targets execute, it requires a new evaluation and imports from packages will actually be available. I'll go into more details about how restore and how `PackageReference` works in a future post.
 
 ## Debugging example: `@(Content)` item copying
 
@@ -153,7 +153,7 @@ So the [`Copy` task](https://docs.microsoft.com/en-us/visualstudio/msbuild/copy-
 
 Side note: by convention properties, items, and targets which are prefixed by an underscore should be considered "private". MSBuild doesn't have any true notion of scope or access modifiers, but it's an indication of an implementation detail in the build logic and may change behavior or even be removed in the future. Because of this, if you are writing your own custom build logic, you should not depend on "private" entities and instead look for the appropriate extension points.
 
-We can look up the value of `$(OutDir)` in a pretty striaghtforward way by looking at the properties for the project. In this example, we see `OutDir = bin\Debug\net5.0\`. But how did that value come about? We can look ths up in the preprocess. After right-clicking the project, selecting preprocess, and doing a `ctrl+f` and looking for "`<OutDir`", we see this block of xml:
+We can look up the value of `$(OutDir)` in a pretty straightforward way by looking at the properties for the project. In this example, we see `OutDir = bin\Debug\net5.0\`. But how did that value come about? We can look this up in the preprocess. After right-clicking the project, selecting preprocess, and doing a `ctrl+f` and looking for "`<OutDir`", we see this block of XML:
 
 ```xml
     <!-- Required for enabling Team Build for packaging app package-generating projects -->
@@ -209,7 +209,7 @@ Now we understand the `$(OutDir)` part of the copy destination, so next we shoul
 
 ![Search results for "_SourceItemsToCopyToOutputDirectory"](/assets/structured-log-viewer-search-2.PNG){: .center }
 
-We have results from all three projects, which is expected since App depends on Lib1 and Lib2, so those other projects build first and would perform this logic themselves. How exactly App causes Lib1 and Lib2 to build first I will leave as an exercize to the reader.
+We have results from all three projects, which is expected since App depends on Lib1 and Lib2, so those other projects build first and would perform this logic themselves. How exactly App causes Lib1 and Lib2 to build first I will leave as an exercise to the reader.
 
 To continue answering our original question, we want to look at the result for the App project, which leads us to the `GetCopyToOutputDirectoryItems` target, which is defined as:
 
@@ -256,7 +256,7 @@ And in the execution logs we see:
 
 Using the combination of the definition and the execution log, we see that this target ends up calling 2 other targets, `_GetCopyToOutputDirectoryItemsFromTransitiveProjectReferences` and `_GetCopyToOutputDirectoryItemsFromThisProject`, and aggregates and filters the resulting items into `@(_SourceItemsToCopyToOutputDirectoryAlways)` and `@(_SourceItemsToCopyToOutputDirectory)` items.
 
-Based on the names we can guess what's going on already. One target gathers items from project references while the other gathers items from this project. Then they're separated into an "always" and a "preserve newest" item. We'll focus on `@(_SourceItemsToCopyToOutputDirectory)` since that's what we are tracing, but the "always" variant works very similarly except the file copies are unconditional instead of dependant on file timestamps.
+Based on the names we can guess what's going on already. One target gathers items from project references while the other gathers items from this project. Then they're separated into an "always" and a "preserve newest" item. We'll focus on `@(_SourceItemsToCopyToOutputDirectory)` since that's what we are tracing, but the "always" variant works very similarly except the file copies are unconditional instead of dependent on file timestamps.
 
 Let's look at `_GetCopyToOutputDirectoryItemsFromThisProject` first since it's from this project and will likely be easier to follow. After searching abd finding the instance under the App project, we find that it's defined as:
 
