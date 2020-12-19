@@ -258,6 +258,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ffi (~> 1.13.1)
   github-pages
   jekyll-feed
   jekyll-paginate
