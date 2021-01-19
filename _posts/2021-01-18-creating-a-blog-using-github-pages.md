@@ -2,17 +2,16 @@
 layout: post
 title: Creating a blog using GitHub Pages
 categories: [blog, Jekyll]
-tags: []
 comments: true
 ---
 
 Many software engineers have blogs, whether it's to write about a particularly sticky problem they ran into, express their opinion about a given technology, evangelize their own projects, or to create a tutorial for a common task. This article falls into the latter category, as I felt like there are so many options with varying levels of barrier to entry, but there's a really simple solution.
 
-This blog was originally hosted on a [WordPress](https://pages.github.com/){:target="_blank"} site which shared an [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/){:target="_blank"} with some other websites I have and it's own MySql database. Now not only did that cost money (or would have if it wasn't sharing existing resources), it was just way overkill for what I was doing, and even for all that it was just plain slow. Furthermore, and this is possibly just personal preference, I really just wanted to write [Markdown](https://en.wikipedia.org/wiki/Markdown){:target="_blank"} and not have to deal with a fancy text editor or raw HTML. WordPress may be OK for people who don't want to deal with any sort of programming or configuration but I, and I suspect most programmers, are more comfortable working with some sort of markup language like Markdown.
+This blog was originally hosted on a [WordPress](https://pages.github.com/){:target="_blank"} site which shared an [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/){:target="_blank"} with some other websites I have and it's own MySql database. Now not only did that cost money (or would have if it wasn't sharing existing resources), but it was just way overkill for what I was doing, and even for all that it was just plain slow. Furthermore, and this is possibly just personal preference, I really just wanted to write [Markdown](https://en.wikipedia.org/wiki/Markdown){:target="_blank"} and not have to deal with a fancy text editor or raw HTML. WordPress may be OK for people who don't want to deal with any sort of programming or configuration but I, and I suspect most programmers, are more comfortable working with some sort of markup language like Markdown.
 
 After looking around, I ended up landing on [GitHub Pages](https://pages.github.com/){:target="_blank"}. In essence, GitHub Pages allows you to host static web content for free. They also provide integration with [Jekyll](https://jekyllrb.com/){:target="_blank"}, a static content generator, which gives a little bit more flexibility. For those not familiar with static content generation, it's basically just a tool which transforms some content and configuration into a full website. This allows you to create templates, shared includes, and variables to avoid having to write and update full HTML pages. GitHub Pages is also really easy to set up as it's just a special GitHub repo, and it's blazingly fast since your content is extremely cacheable so is generally served from CDN.
 
-Assuming I've sold you on GitHub Pages, let's see how easy it is to set up. You can also see [this blog's repo](https://github.com/dfederm/dfederm.github.io){:target="_blank"} for reference when configuring your own blog.
+Assuming I've sold you on GitHub Pages, let's see how easy it is to set up. There is documentation for both GitHub pages and Jekyll, but in my opinion the docs can be a bit hard to navigate since it's split across the two sites and many of Jekyll's features are not available on GitHub pages, which is unclear from the docs. This guide intends to explain the basics, as well as some of the more advanced topics I found useful. You can also see [this blog's repo](https://github.com/dfederm/dfederm.github.io){:target="_blank"} for reference when configuring your own blog.
 
 ## Repository Creation
 
@@ -26,7 +25,7 @@ After the repo is created, clone it locally and clear out the initial boilerplat
 
 Unfortunately, Windows is not officially supported by Jekyll. They provide some [workarounds](https://jekyllrb.com/docs/installation/windows/){:target="_blank"}, but personally it seemed more trouble than it's worth. Because of this, I recommend using the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/){:target="_blank"}, or WSL.
 
-First, ensure CPU Virtualization is enabled in the BIOS. The process for enabling it varies by manufactuer, but you can check whether it's enabled in the Task Manager under the performance tab.
+First, ensure CPU Virtualization is enabled in the BIOS. The process for enabling it varies by manufacturer, but you can check whether it's enabled in the Task Manager under the performance tab.
 
 ![The Task Manager showing the Virtualization setting](/assets/cpu-virtualization-enabled.PNG){: .center }
 
@@ -96,13 +95,6 @@ You'll notice that the [`github-pages` gem](https://rubygems.org/gems/github-pag
 
 After updating the `Gemfile`, you'll want to `bundle update` to install everything.
 
-The day of writing up this post a new version of ffi was released (1.14.0) which seemed to cause errors for me at least. Depending on when you're reading this and whether there's a fix, you may need to add this to your `Gemfile` temporarily as well:
-
-```ruby
-# ffi 1.14.0 seems broken...
-gem "ffi", "~> 1.13.1"
-```
-
 To build the site and serve it locally, run:
 
 ```sh
@@ -111,7 +103,7 @@ bundle exec jekyll serve --drafts --livereload
 
 For those running Windows, I recommend adding `--force_polling`. Otherwise, saving your content sometimes does not auto-regenerate the site.
 
-Your site should now be running at http://localhost:4000!
+Your site should now be running at `http://localhost:4000`!
 
 For the curious, you can see the entire generated website under the `_site` folder.
 
@@ -121,7 +113,7 @@ Jekyll is quite powerful and the [docs](https://jekyllrb.com/docs/){:target="_bl
 
 ## Configuring the site
 
-This is the primary configuration for the site as a whole. It describes how to build the site, site-wide configuration, and custom site-wide variables you may want to define.
+`_config.yml` is the primary configuration for the site as a whole. It describes how to build the site, site-wide configuration, and custom site-wide variables you may want to define.
 
 The new site template hits a few of the major configurations, however I'd recommend adding a few more:
 
@@ -165,13 +157,13 @@ You can also add any other custom various in this file as well. Simply add them 
 google_analytics: <your-ga-id>
 ```
 
-These custom variables can be used in your content like `{{ site.google_analytics }}`.
+These custom variables can be used in your content like `{{ "{{ site.google_analytics " }}}}`.
 
 ## Pages
 
-These are for standalong content for your site, like the home page, about page, contact page, etc. These can be either `.html` or `.md` files, based on whichever is better for writing your content.
+These are for standalone content for your site, like the home page, about page, contact page, etc. These can be either `.html` or `.md` files, based on whichever is better for writing your content.
 
-By default, the url for pages follows the folder structure you use, so `documentation\doc1.md` would become `/documentation/doc1.html`, but this can be overriden.
+By default, the url for pages follows the folder structure you use, so `documentation\doc1.md` would become `/documentation/doc1.html`, but this can be overridden.
 
 ## Front Matter, Layouts, and Includes
 
@@ -195,7 +187,7 @@ A layout may inherit other layouts (and in fact, my `page` layout inherits my `d
 
 Finally, [includes](https://jekyllrb.com/docs/includes/){:target="_blank"} can be used to insert files into the current file without having to repeat it. It can also help organize your content and layouts by extracting logical blocks into separate files.
 
-To put it all together, for my site I have something like the following files (simplified for brevity, and ommited some files):
+To put it all together, for my site I have something like the following files (simplified for brevity, and omitted some files):
 
 **about.md:**
 ```md
@@ -290,23 +282,128 @@ categories: [blogging]
 
 ## Hello!
 My first blog post
-
 ```
 
-You can also create drafts when you're not read to post something quite yet. Just put the file in the `_drafts` folder and don't have a date in the file name. Drafts are only included in the site when using the `--drafts` comand-line parameter, so they won't be included on your production site. This allows you to push your unfinished changes instead of having to create topic branches in git like you would with code.
+You can also create drafts when you're not read to post something quite yet. Just put the file in the `_drafts` folder and don't have a date in the file name. Drafts are only included in the site when using the `--drafts` command-line parameter, so they won't be included on your production site. This allows you to push your unfinished changes instead of having to create topic branches in git like you would with code.
 
-## Assets and Themes
-TODO
+## Static files, Assets and Themes
 
-Topics:
-* Assets
-* Built-in themes
-* Sass
+Static files like images are pretty simple. You can just reference them as a relative url using standard markdown. Personally, I used the "assets" folder for static content, although "assets" mean something slight different in Jekyll.
+
+```md
+---
+layout: post
+title: My first post!
+categories: [blogging]
+---
+
+## Image example
+![Image alt text](/assets/some-image.png)
+```
+
+"Assets" in Jekyll refers to the built-in support for [Sass](https://sass-lang.com/){:target="_blank"}. Put your main SCSS or Sass files where you want them, like `assets/css/style.scss`, and be sure to make them proper "front matter", with the two lines of triple dashes. The `_sass` directory is the base directory for your imported SCSS/Sass files.
+
+Personally, I recommend your `assets/css/style.scss` file simply importing a root-level SCSS file, and having all your actual styles under the `_sass` directory.
+
+For example:
+
+**assets/css/style.scss:**
+```scss
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "site";
+```
+
+**_sass\site.scss:**
+
+```scss
+@charset "utf-8";
+
+/* All your actual variables and styles */
+```
+
+**_includes\head.html** (or wherever your `<head>` tag is):
+
+```html
+<link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+```
+
+Jekyll also has support for [themes](https://jekyllrb.com/docs/themes/){:target="_blank"}, however, GitHub pages only supports [a small set of them](https://pages.github.com/themes/){:target="_blank"}. A theme may help you get off the ground quickly, but I recommend just customizing to make your blog your own. Personally, I started with the minima theme as a base (ie. I just copied the scss files), and then just customized those files as desired.
 
 ## Custom domain
-TODO
+GitHub pages supports [custom domains](https://docs.github.com/en/github/working-with-github-pages/about-custom-domains-and-github-pages){:target="_blank"}, for example this blog is hosted on [`dfederm.com`](https://dfederm.com/){:target="_blank"} instead of `dfederm.github.io`.
 
-## Pagination
-TODO
+GitHub pages supports both apex domains (eg mysite.com) and subdomains (eg blog.mysite.com). They're slightly different, but both are pretty easy to set up.
+
+In either case, the first step is to configure the GitHub side. Navigate to the repository settings and under the "Custom domain" option provide your custom domain. This will commit a `CNAME` file at the root of the repo pointing to the custom domain. It's also strongly recommended to check the "Enforce HTTPS button" setting just below.
+
+Next, you'll need to configure things with your DNS provider. The specific details for making this configuration varies by DNS provider, but is generally straightforward.
+
+If you're configuring an apex domain, you'll need to create an `A` record to the following IP addresses:
+
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
+
+Note that if you're configuring an apex domain, it's also recommended to configure the `www` subdomain.
+
+If you're configuring a subdomain (`www` or otherwise), you'll need to create a `CNAME` record for the subdomain to the alias `<username>.github.io`.
+
+Note that DNS changes may take up to 24 hours to propagate.
 
 ## Categories
+As you add more content over time, you will likely want a categories page as a quick way for users to find related content.
+
+This can be implemented by a Page using some [site variables](https://jekyllrb.com/docs/variables/#site-variables){:target="_blank"}, specifically `site.categories`.
+
+This `site.categories` variable contains a list of all the categories your posts have. A post can list its categories in the front matter section:
+
+```yml
+---
+layout: post
+title: Some post
+categories: [Some Category, Some Other Category]
+comments: true
+---
+
+...Post content...
+```
+
+The `site.categories` variable's contents are a little awkward in my opinion, as each item in the list is itself a list containing exactly 2 elements: the category name and the posts in the category. It's unclear to me why it's not a more structured object.
+
+Here's an example of what my categories page `categories.html` looks like, which lists every category as headings in alphabetical order and a link to each post within that category in a bulleted list under it:
+
+```html
+---
+layout: page
+title: Categories
+order: 1
+---
+
+{{ "{%- assign categories = site.categories | sort "}}-%}
+{{ "{%- for category in categories "}}-%}
+
+{{ "{%- assign categoryName = category[0] "}}-%}
+{{ "{%- assign categoryNumPosts = category[1] | size "}}-%}
+<h2 id="{{ "{{categoryName | uri_escape | downcase " }}}}">{{ "{{ categoryName " }}}} ({{ "{{ categoryNumPosts " }}}})</h2>
+
+<ul>
+    {{ "{% assign sorted_posts = category[1] | reversed "}}%}
+    {{ "{% for post in sorted_posts "}}%}
+    <li>
+        <a href="{{ "{{ post.url " }}}}">{{ post.title }}</a> -
+        <time datetime="{{ "{{ post.date | date_to_xmlschema " }}}}"
+              itemprop="datePublished">{{ "{{ post.date | date: "}}"%b %-d, %Y" }}</time>
+    </li>
+    {{ "{% endfor "}}%}
+</ul>
+
+{{ "{%- endfor "}}-%}
+```
+
+As content grows, it may even eventually be a good idea to add an index at the top of the categories page to quickly anchor to each category.
