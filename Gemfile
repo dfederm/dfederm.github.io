@@ -12,9 +12,6 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
 end
 
-# ffi 1.14.0 seems broken...
-gem "ffi", "~> 1.13.1"
-
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
 install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
