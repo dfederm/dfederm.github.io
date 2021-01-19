@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Creating a blog using GitHub Pages
-categories: [blog, Jekyll]
+categories: [Blog, Jekyll]
 comments: true
 ---
 
