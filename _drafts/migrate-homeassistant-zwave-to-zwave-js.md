@@ -6,89 +6,114 @@ tags: [automation, home assistant, home automation, smart home, z-wave]
 comments: true
 ---
 
-## TODO
+As of [version 2021.2](https://www.home-assistant.io/blog/2021/02/03/release-20212/){:target="_blank"}, there is a new Z-Wave integration in Home Assistant based on [Z-Wave JS](https://github.com/zwave-js/node-zwave-js){:target="_blank"}, a modern Z-Wave driver built using JS, which is much more accessible for collaboration than the old one using [OpenZWave](http://www.openzwave.com/){:target="_blank"}.
 
-Explain difference between addon and integration
+This guide intends to help migration from the legacy Z-Wave integration to Z-Wave JS.
 
-### My setup
+## Background
 
-### Take a backup
+My personal setup uses Home Assistant OS (or HassOS, formerly "HassIO") on a Raspberry Pi 3B+. This guide will focus on that scenario, so some steps may differ for other installation methods.
 
-### Copy current entities
-* Developer Tools
-* Filter attributes by "node_id"
+Before we begin, we should also understand the difference between an "add-on" and an "integration" in Home Assistant. An "add-on" is something specific to HassOS and those with other installation methods will not have this. An "integration" provides a specific functionality in Home Assistant across all installation types.
+
+### Architecture
+
+The fundamental architecture of the Z-Wave JS functionality in Home Assistant has two parts.
+
+The first part is the Z-Wave JS server. This is what directly talks to your Z-Wave stick. For HassOS, this part will be provided by an add-on. For other installation methods, you will need to run the server yourself.
+
+The second part is the Z-Wave JS integration in Home Assistant, used for all installation methods. This integration talks to the Z-Wave JS server to send commands to and recieve information from your Z-Wave devices.
+
+This split provides decouples Home Assistant from the Z-Wave controller, providing lots of flexibility in configuration and allowing the Home Assistant server to restart without restarting your Z-Wave network for instance.
+
+## Preparation
+
+### Take a system backup
+
+First things first, backup your system. For those of you using HassOS, take a full snapshot and once it completes download the snapshot somewhere safe like OneDrive.
+
+![Taking a snapshot](/assets/zwave-snapshot.PNG){: .center }
+
+### Copy current entity data
+
+After migration, you'll need to set up all your devices and entities again. To help with this, you should copy the current entity data, specifically which entity id and names you used for each Z-Wave node id.
+
+Go to "Developer Tools" and filter the attributes by "node_id"
 
 ![Filtering by node_id in Developer Tools](/assets/zwave-nodeid-devtools.PNG){: .center }
 
-* Copy and paste into Excel.
+Next you'll want to copy and and paste into Excel.
 
-Hint: click into the entity table, `ctrl+a`, in Excel ctrl+v, delete rows 2 and 3 (empty row and filter input row), Select "Data -> Filter", sort attributes (Note 1, 10, 11, 20, etc)
+An easy way to do this is to:
+1. Click into the entity table
+1. Press `ctrl+a`
+1. Open a blank workbook in Excel
+1. Press `ctrl+v`
+1. Delete rows 2 and 3, which should be an empty row and filter input row
+1. Select "Data -> Filter"
+1. Sort the attributes. Note that the sorting is lexographical, so the order will be 1, 10, 11, ... 18, 19, 2, 20, 21)
 
-* Cross check entity count
-
-Mine shows 107 entities, Excel shows 108 rows (1 extra for header)
-
-![Node id backups in Excel](/assets/zwave-nodeid-excel.PNG){: .center }
+To make sure you got everything, cross check entity count. Mine shows 107 entities in Home Assistant, while Excel shows 108 rows (1 extra for the header).
 
 ![Existing Z-Wave integration](/assets/zwave-integration-old.PNG){: .center }
 
-* Save current Z-Wave configuration
+![Node id backups in Excel](/assets/zwave-nodeid-excel.PNG){: .center }
+
+### Save Z-Wave configuration
+
+Take note of your device id your Z-Wave stick uses and the network key you use. The latter is especially important or you'll need to completely set up your Z-Wave network, re-including all devices, from scratch.
+
+If you've used yaml to configure this, you can simply comment it out for now so that it's still available to you later.
 
 ```yaml
 zwave:
   usb_path: /dev/ttyACM0
   network_key: !secret zwave_network_key
-  # Attempt to mitigate switch update delays
-  polling_interval: 30000
-  device_config_domain:
-    switch:
-      polling_intensity: 1
-  device_config_glob:
-    sensor.*_sourcenodeid:
-      ignored: true
 ```
 
-Or just comment out.
+## Migration
 
-* Uninstall existing Z-Wave integration
+### Uninstall legacy Z-Wave integration
 
-Integrations page - Delete.
+From the integration page, simply delete the Z-Wave integration. As mentioned during preparation, you'll also want to delete or comment out the `zwave` configuration entry if you haven't already.
 
-* Restart HA.
+Then restart Home Assistant to ensure the legacy Z-Wave inregration is completely gone.
 
-* Install Z-Wave JS add-on
+### Install Z-Wave JS add-on
+
+As mentioned earlier, for installation types besides HassOS, you'll need to get the Z-Wave JS server running yourself.
+
+For HassOS users, simply go to the Add-on Store and find the [Z-Wave JS addon](https://github.com/home-assistant/addons/blob/master/zwave_js/DOCS.md){:target="_blank"}.
 
 ![Z-Wave JS in the add-on store](/assets/zwave-addons-store.PNG){: .center }
 
-Docs: https://github.com/home-assistant/addons/blob/master/zwave_js/DOCS.md
+Installation may take a couple minutes, or at least it did for me, so be patient.
 
-Wait... Could take a couple minutes.
+After the installation finishes, go to the Configuration for the add-on and add the device USB path and network key you found earlier. Remember to paste the actual network key, not the secret name.
 
-Add device USB path and network key to configuration. Paste the actual network key, not the secret name.
-
-Note: had to "Edit in YAML", device in dropdown was not recognized.
+Note that the dropdown did not show my device, so I had to click the 3 dots and "Edit in YAML".
 
 ![Z-Wave JS Configuration](/assets/zwave-addon-config.PNG){: .center }
 
-Paste auto-formatting, 0x format.
+Pasting in the network key auto-formatted it for me, and my understanding is that both the "0x..." format as well as the "one hex string" formats are supported. Personally, I was using the "0x..." format before, so I just stuck with it.
 
-Save the configuration, enable watchdog, (optional) auto-update, start the add-on.
+Save the configuration and start the add-on. I suggest enabling the watchdog as well so that it restarts in case it crashes. You can also choose whether you want to enable auto-updates for the add-on.
 
-* Add Z-Wave JS Integration
+### Add Z-Wave JS Integration
 
-Docs: https://www.home-assistant.io/integrations/zwave_js/
+Now that the Z-Wave JS server is now up and running, so the next step is to tell Home Assistant itself about it by adding the [Z-Wave JS integration](https://www.home-assistant.io/integrations/zwave_js/){:target="_blank"}.
 
-![Adding the Z-Wave JS integrations](/assets/zwave-integration-add.PNG){: .center }
-
-Configure the integration.
+Go to the integrations page and add the Z-Wave integration. When asked to configur it, ensure the "Use Z-Wave JS Supervider add-on" is checked if you're using HassOS and the add-on. Other Home Assistant installation methods will not check that box and instead configure the integration to point to their manually configured Z-Wave JS server.
 
 ![Configuring the Z-Wave JS integration](/assets/zwave-integration-configuring.PNG){: .center }
 
 Submit and click through to finish. We'll configure and rename each device later.
 
+The integration should now be added!
+
 ![Configured Z-Wave JS integration](/assets/zwave-integration-done.PNG){: .center }
 
-You may notice that in the image above only 26 devices of the original 30 are shown. The device count is more accurate with the new integration. With the old integration, I had several dead nodes which showed up as devices with no entities in Home Assistant.
+You may notice that in the image above only 26 of the original 30 devices are shown. I found that the device count is more accurate with the new integration, as with the old integration I had several dead nodes which showed up as devices with no entities in Home Assistant.
 
 You may also notice that battery-powered Z-Wave devices may not initially be properly recognized or populated with entities until they "wake up" and check in with the controller (your Z-Wave stick).
 
@@ -96,22 +121,40 @@ You may also notice that battery-powered Z-Wave devices may not initially be pro
 
 Most devices will wake up on some time interval, or you can look up how to manually wake up a device by reading the manual for that specific device, which usually involes pressing a physical button on the device.
 
-The overall status of the Z-Wave network, including how many nodes are ready, but clicking on "Configure" for the integration.
+You can check the overall status of the Z-Wave network, including how many nodes are ready, by clicking on "Configure" for the integration.
 
 ![Configure the Z-Wave JS integration](/assets/zwave-integration-configure.PNG){: .center }
 
-Because the integration uses a completely different back-end, entities may be different too. All the old `zwave.*` entities are gone, and the are some added disabled entities, for example all my light switches now have an entity ending in `_basic`. Beyond some additions and substrations, some entities will just be different.
+## Entity migration
 
-* Rename entity id and display names
+Because the integration uses a completely different back-end, entities may be different too. All the old `zwave.*` entities are gone, and the are some added disabled entities. For example all my light switches now have an entity ending in `_basic`. Beyond some additions and substrations, some entities will just be different.
 
-Tedious
+### Configuring devices and entities
 
-Rename devices, then entities.
+Unfortunately this part is tedious, especially if you have a large number of devices.
+
+When clicking on a specific device you can see its node id, which you'll then cross-reference with your entity data pasted into Excel to figure out which device it's referring to.
 
 ![Getting the node id from a device](/assets/zwave-device-nodeid.PNG){: .center }
 
+I would recommend renaming the device first before its entities, because once you rename a device Home Assistant should, for the most part, rename the entities accordingly and sometimes it'll just happen to match what you had before.
+
 ![Rename entity prompt](/assets/zwave-device-rename.PNG){: .center }
 
-* Z-Wave Node Configuration not yet available.
+## Final thoughts
+
+Now despite the Z-Wave JS integration being the "new thing" and the legacy Z-Wave integration being officially deprecated (but still existing), the new integration definitely has some flaws and feature gaps. A list of [known limitations](https://www.home-assistant.io/integrations/zwave_js/#current-limitations){:target="_blank"} is even listed on the docs. Some people I've seen even go as far to say that the new integration probably should have remained in beta for some time until it fills some of these gaps and has a better migration story.
+
+### Node configuration
+
+One feature gap in particular is that a Node Configuration UI is not yet available. According to the docs:
 
 > Configuration of Z-Wave nodes and/or configuration with the Home Assistant UI is currently not yet implemented.
+
+Based on forum posts however, this is only missing because it didn't make it for the 2021.2 release. That will come in some future release, and supposedly soon.
+
+### TODO
+
+* Door sensors never worked.
+* Slower.
+* Talk about OZW integration and trust lost
