@@ -22,9 +22,9 @@ The fundamental architecture of the Z-Wave JS functionality in Home Assistant ha
 
 The first part is the Z-Wave JS server. This is what directly talks to your Z-Wave stick. For HassOS, this part will be provided by an add-on. For other installation methods, you will need to run the server yourself.
 
-The second part is the Z-Wave JS integration in Home Assistant, used for all installation methods. This integration talks to the Z-Wave JS server to send commands to and recieve information from your Z-Wave devices.
+The second part is the Z-Wave JS integration in Home Assistant, used for all installation methods. This integration talks to the Z-Wave JS server to send commands to and receive information from your Z-Wave devices.
 
-This split provides decouples Home Assistant from the Z-Wave controller, providing lots of flexibility in configuration and allowing the Home Assistant server to restart without restarting your Z-Wave network for instance.
+This split decouples Home Assistant from the Z-Wave controller, providing lots of flexibility in configuration and allowing the Home Assistant server to restart without restarting your Z-Wave network for instance.
 
 ## Preparation
 
@@ -51,7 +51,7 @@ An easy way to do this is to:
 1. Press `ctrl+v`
 1. Delete rows 2 and 3, which should be an empty row and filter input row
 1. Select "Data -> Filter"
-1. Sort the attributes. Note that the sorting is lexographical, so the order will be 1, 10, 11, ... 18, 19, 2, 20, 21)
+1. Sort the attributes. Note that the sorting is lexicographic, so the order will be 1, 10, 11, ... 18, 19, 2, 20, 21)
 
 To make sure you got everything, cross check entity count. Mine shows 107 entities in Home Assistant, while Excel shows 108 rows (1 extra for the header).
 
@@ -83,7 +83,7 @@ Then restart Home Assistant to ensure the legacy Z-Wave inregration is completel
 
 As mentioned earlier, for installation types besides HassOS, you'll need to get the Z-Wave JS server running yourself.
 
-For HassOS users, simply go to the Add-on Store and find the [Z-Wave JS addon](https://github.com/home-assistant/addons/blob/master/zwave_js/DOCS.md){:target="_blank"}.
+For HassOS users, simply go to the Add-on Store and find the [Z-Wave JS add-on](https://github.com/home-assistant/addons/blob/master/zwave_js/DOCS.md){:target="_blank"}.
 
 ![Z-Wave JS in the add-on store](/assets/zwave-addons-store.PNG){: .center }
 
@@ -103,7 +103,7 @@ Save the configuration and start the add-on. I suggest enabling the watchdog as 
 
 Now that the Z-Wave JS server is now up and running, so the next step is to tell Home Assistant itself about it by adding the [Z-Wave JS integration](https://www.home-assistant.io/integrations/zwave_js/){:target="_blank"}.
 
-Go to the integrations page and add the Z-Wave integration. When asked to configur it, ensure the "Use Z-Wave JS Supervider add-on" is checked if you're using HassOS and the add-on. Other Home Assistant installation methods will not check that box and instead configure the integration to point to their manually configured Z-Wave JS server.
+Go to the integrations page and add the Z-Wave integration. When asked to configur it, ensure the "Use Z-Wave JS Supervisor add-on" is checked if you're using HassOS and the add-on. Other Home Assistant installation methods will not check that box and instead configure the integration to point to their manually configured Z-Wave JS server.
 
 ![Configuring the Z-Wave JS integration](/assets/zwave-integration-configuring.PNG){: .center }
 
@@ -119,7 +119,7 @@ You may also notice that battery-powered Z-Wave devices may not initially be pro
 
 ![An asleep Z-Wave device](/assets/zwave-device-asleep.PNG){: .center }
 
-Most devices will wake up on some time interval, or you can look up how to manually wake up a device by reading the manual for that specific device, which usually involes pressing a physical button on the device.
+Most devices will wake up on some time interval, or you can look up how to manually wake up a device by reading the manual for that specific device, which usually involves pressing a physical button on the device.
 
 You can check the overall status of the Z-Wave network, including how many nodes are ready, by clicking on "Configure" for the integration.
 
@@ -127,7 +127,7 @@ You can check the overall status of the Z-Wave network, including how many nodes
 
 ## Entity migration
 
-Because the integration uses a completely different back-end, entities may be different too. All the old `zwave.*` entities are gone, and the are some added disabled entities. For example all my light switches now have an entity ending in `_basic`. Beyond some additions and substrations, some entities will just be different.
+Because the integration uses a completely different back-end, entities may be different too. All the old `zwave.*` entities are gone, and there are some added but disabled entities. For example all my light switches now have an entity ending in `_basic`. Beyond some additions and substrations, some entities will just be different.
 
 ### Configuring devices and entities
 
@@ -165,7 +165,7 @@ I do wonder though whether this is perhaps due to the initial surge of traffic w
 
 ## Final thoughts
 
-The door/window sensors being unable to successfully interview was a deal breaker for me since these tie into my home's [security system]({% post_url 2020-04-25-setting-up-a-security-system-with-home-assistant %}), so I eventually had to go back to the legacy Z-Wave integration via a restore from backup. This is *exactly* the reason backing up beforehand is so important).
+The door/window sensors being unable to successfully interview was a deal breaker for me since these tie into my home's [security system]({% post_url 2020-04-25-setting-up-a-security-system-with-home-assistant %}), so I eventually had to go back to the legacy Z-Wave integration via a restore from backup. This is *exactly* the reason backing up beforehand is so important.
 
 Since this is still very new though, these issues will hopefully be addressed in a future update, perhaps even the 2021.3 release scheduled for this coming week. The Z-Wave JS integration, both on the Z-Wave JS side and the Home Assistant side, seems to have a lot of attention right now and looks like it'll be actively maintained going forward, so things are likely to get better.
 
