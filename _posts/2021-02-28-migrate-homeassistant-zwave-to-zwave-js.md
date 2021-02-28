@@ -141,9 +141,9 @@ I would recommend renaming the device first before its entities, because once yo
 
 ![Rename entity prompt](/assets/zwave-device-rename.PNG){: .center }
 
-## Final thoughts
+## Issues
 
-Now despite the Z-Wave JS integration being the "new thing" and the legacy Z-Wave integration being officially deprecated (but still existing), the new integration definitely has some flaws and feature gaps. A list of [known limitations](https://www.home-assistant.io/integrations/zwave_js/#current-limitations){:target="_blank"} is even listed on the docs. Some people I've seen even go as far to say that the new integration probably should have remained in beta for some time until it fills some of these gaps and has a better migration story.
+Now despite the Z-Wave JS integration being the "new thing" and the legacy Z-Wave integration being officially deprecated (but still existing), the new integration definitely has some major flaws and feature gaps. A list of [known limitations](https://www.home-assistant.io/integrations/zwave_js/#current-limitations){:target="_blank"} is even listed on the docs. Some people I've seen even go as far to say that the new integration probably should have remained in beta for some time until it fills some of these gaps and has a better migration story.
 
 ### Node configuration
 
@@ -153,8 +153,26 @@ One feature gap in particular is that a Node Configuration UI is not yet availab
 
 Based on forum posts however, this is only missing because it didn't make it for the 2021.2 release. That will come in some future release, and supposedly soon.
 
-### TODO
+### Device interview failures
 
-* Door sensors never worked.
-* Slower.
-* Talk about OZW integration and trust lost
+One particularly disappointing aspect of the migration for me was that I was never able to get my door/windows sensors to work. I have several [Aeotec door/window sensor gen 5 (ZW120-A)](https://products.z-wavealliance.org/products/1574?selectedFrequencyId=2){:target="_blank"} devices, and even after trying various restarts, pushing the hardware button on the sensors to force wake-ups, and giving it 4+ hours to stabilize, these devices consistently failed to inverview according to the Z-Wave JS logs.
+
+### Performance
+
+Z-Wave JS is supposedly "blazing fast", and others seem to corroborate the statement, however that was not the case for me. For example, I have an automation to turn on my kitchen pendants and under-cabinet lighting when the primary kitchen lights are turned on (via a light switch), and this took several seconds to trigger with the Z-Wave JS solution despite being near-instantaneous with the legacy integration.
+
+I do wonder though whether this is perhaps due to the initial surge of traffic when migrating, including the device interview failures mentioned above, which caused the network as a whole to initially be slow. Maybe if I gave it more time it would have eventually stabilized, although as mentioned above I did give it 4 hours.
+
+## Final thoughts
+
+The door/window sensors being unable to successfully interview was a deal breaker for me since these tie into my home's [security system]({% post_url 2020-04-25-setting-up-a-security-system-with-home-assistant %}), so I eventually had to go back to the legacy Z-Wave integration via a restore from backup. This is *exactly* the reason backing up beforehand is so important).
+
+Since this is still very new though, these issues will hopefully be addressed in a future update, perhaps even the 2021.3 release scheduled for this coming week. The Z-Wave JS integration, both on the Z-Wave JS side and the Home Assistant side, seems to have a lot of attention right now and looks like it'll be actively maintained going forward, so things are likely to get better.
+
+Unfortunately, the question for me is how quickly the new integration can catch up to the legacy one. Personally, I could not wait for fixes and had to roll back, and I suspect many others who attempted migration did the same.
+
+Additionally about a month or so ago, before Z-Wave JS was announced, I attempted to migrate to the OpenZWave beta integration. This was at the time supposedly the new thing, but is now basically abandoned. I also had issues with it (the same door/window sensors in fact...), so even then had to roll back to the legacy integration.
+
+Assuming others are having similar experiences as me, I can't blame anyone for feeling burned by the Home Assistant team and being pessimistic about the new Z-Wave JS integration. There's certainly some trust lost in how Z-Wave has been handled, and the Home Assistant devs will need to work hard to build back some of that trust with users. I worry some users may even jump to another platform since trust is just such an important thing when it comes to people's home.
+
+Personally, I am hopeful about the future of the integration and have faith that it will (eventually) be great. I will certainly be trying to migrate again after the 2021.3 release, and I'm optimistic that it will have addressed the larger issues surrounding the integration.
