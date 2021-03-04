@@ -157,6 +157,8 @@ Based on forum posts however, this is only missing because it didn't make it for
 
 One particularly disappointing aspect of the migration for me was that I was never able to get my door/windows sensors to work. I have several [Aeotec door/window sensor gen 5 (ZW120-A)](https://products.z-wavealliance.org/products/1574?selectedFrequencyId=2){:target="_blank"} devices, and even after trying various restarts, pushing the hardware button on the sensors to force wake-ups, and giving it 4+ hours to stabilize, these devices consistently failed to inverview according to the Z-Wave JS logs.
 
+**Update {{ "2021-03-03" | date: site.date_format }}:** As of the 2021.3 release, the door/window sensors work. I still had to wake up some of them a couple times, but that may have been because the first round I attempted the wake-ups during the initial surge of interviews, including the ones for wired devices, and the sensors only stay awake for 10 seconds.
+
 ### Performance
 
 Z-Wave JS is supposedly "blazing fast", and others seem to corroborate the statement, however that was not the case for me. For example, I have an automation to turn on my kitchen pendants and under-cabinet lighting when the primary kitchen lights are turned on (via a light switch), and this took several seconds to trigger with the Z-Wave JS solution despite being near-instantaneous with the legacy integration.
@@ -164,6 +166,8 @@ Z-Wave JS is supposedly "blazing fast", and others seem to corroborate the state
 I do wonder though whether this is perhaps due to the initial surge of traffic when migrating, including the device interview failures mentioned above, which caused the network as a whole to initially be slow. Maybe if I gave it more time it would have eventually stabilized, although as mentioned above I did give it 4 hours.
 
 ## Final thoughts
+
+**Update {{ "2021-03-03" | date: site.date_format }}:** As of the 2021.3 release, the door/window sensors work, so I was successfully able to migrate.
 
 The door/window sensors being unable to successfully interview was a deal breaker for me since these tie into my home's [security system]({% post_url 2020-04-25-setting-up-a-security-system-with-home-assistant %}), so I eventually had to go back to the legacy Z-Wave integration via a restore from backup. This is *exactly* the reason backing up beforehand is so important.
 
