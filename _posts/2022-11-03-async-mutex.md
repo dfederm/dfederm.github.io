@@ -13,7 +13,7 @@ Though if you've ever used a `Mutex` you may have found that it cannot be used i
 
 This can make the `Mutex` class hard to use at times and may require use of ugliness like `GetAwaiter().GetResult()`.
 
-For in-process synchronization, [`SemaphoreSlim`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim){:target="_blank"} can be a good choice as it has a [`WaitAsync()`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim.waitasync){:target="_blank"} method. However semaphores aren't ideal for managing exclusive access (`new SemaphoreSlime(1)` works but is less clear) and do not support system-wide synchronization eg. `new Mutex(initiallyOwned: false, @"Global\MyMutex")`.
+For in-process synchronization, [`SemaphoreSlim`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim){:target="_blank"} can be a good choice as it has a [`WaitAsync()`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.semaphoreslim.waitasync){:target="_blank"} method. However semaphores aren't ideal for managing exclusive access (`new SemaphoreSlim(1)` works but is less clear) and do not support system-wide synchronization eg. `new Mutex(initiallyOwned: false, @"Global\MyMutex")`.
 
 Below I'll explain how to implement an async mutex, but the full code can be found at the bottom or in the [Gist](https://gist.github.com/dfederm/35c729f6218834b764fa04c219181e4e){:target="_blank"}.
 
