@@ -17,6 +17,8 @@ For in-process synchronization, [`SemaphoreSlim`](https://learn.microsoft.com/en
 
 Below I'll explain how to implement an async mutex, but the full code can be found at the bottom or in the [Gist](https://gist.github.com/dfederm/35c729f6218834b764fa04c219181e4e){:target="_blank"}.
 
+**EDIT** Based on a bunch of feedback, it's clear to me that I over-generalized this post. This implementation was *specifically* for synchronizing across processes, **not** within a process. The code below is absolutely not thread-safe. So think of this more as an "Async Global Mutex" and stick with `SemaphoreSlim` to synchronization across threads.
+
 ## How to use a Mutex
 
 First, some background on how to properly use a `Mutex`. The simplest example is:
