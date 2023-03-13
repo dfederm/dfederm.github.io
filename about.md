@@ -13,7 +13,6 @@ My name is David Federman. I'm a programmer, gamer, and generally an all-around 
 
 ## My Stuff
 * [Github](https://github.com/dfederm){:target="_blank"} - Code I've written
-* [LinkedIn](http://www.linkedin.com/in/dfederm){:target="_blank"} - My professional profile
 
 ## Others' Stuff I Like
 * [Scott Hanselman's Blog](https://www.hanselman.com/blog/){:target="_blank"} - A tech blogger and speaker I like.
