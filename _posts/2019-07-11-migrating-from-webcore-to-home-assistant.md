@@ -4,6 +4,7 @@ title: Migrating from WebCORE to Home Assistant
 categories: [Home Automation]
 tags: [alexa, automation, home assistant, home automation, smart home, webcore, z-wave]
 comments: true
+hasAmazonLinks: true
 ---
 About a month ago I decided to migrate all my home automation from [WebCORE](https://www.webcore.co/){:target="_blank"} to [Home Assistant](https://home-assistant.io){:target="_blank"}. I liked the idea of all my home automation being local and inside my house, both from a security and reliability perspective. Furthermore it just seemed like a fun project to tinker with, and in general seemed like it would add a bunch of flexibility to my home automation. In this post I'll describe my experience with the migration, the good and the bad.
 
@@ -22,7 +23,7 @@ First to describe my initial setup. For equipment I have:
 Additionally, I have a handful of pistons configured with WebCORE (that's what it calls its automations) and presence sensors using the SmartThings app on my wife's phone and my phone to trigger the "Home" and "Away" home states.
 
 ## Installation of Home Assistant
-I wanted to start with the easiest and most hand-holding Home Assistant configuration possible, so I bought a [Raspberry Pi starter kit](https://www.amazon.com/gp/product/B07BCC8PK7){:target="_blank"} ($80). I knew that I could get it cheaper if I got the parts separately, but as this was my first experience with a Raspberry Pi, I decided to go with a kit. Assembling the Raspberry Pi was definitely a smooth and easy process.
+I wanted to start with the easiest and most hand-holding Home Assistant configuration possible, so I bought a [Raspberry Pi starter kit](https://www.amazon.com/gp/product/B07BCC8PK7?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=10c93503e3e1c8fa6069d1103e696798&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} ($80). I knew that I could get it cheaper if I got the parts separately, but as this was my first experience with a Raspberry Pi, I decided to go with a kit. Assembling the Raspberry Pi was definitely a smooth and easy process.
 
 I then proceeded to [install Hass.io](https://www.home-assistant.io/getting-started/#installing-hassio){:target="_blank"}. The instructions are easy enough to follow, but on first boot I ended up getting stuck. It might have been a patience issue, but eventually after a combination of restarts of the Pi, trying to access via IP address, and flushing my computer's DNS lead to successfully being able to access the web UI.
 
@@ -80,7 +81,7 @@ I also noticed over the past month that Home Assistant updates are a little dest
 My initial goal was to migrate from WebCore to Home Assistant, which I succeeded in, but I realized that I do need to take it a bit further to really get what I wanted out of it. For example, my devices are still primarily controlled through SmartThings, and Home Assistant talks to SmartThings via the SmartThings cloud (as opposed to directly talking to the hub on my LAN...), so my dream of everything being 100% local isn't quite realized. Automations can still be delayed as SmartThings devices signal to my hub to update the cloud to webhook back to my house in Home Assistant and finally trigger the automation, which take action on a SmartThings device which has to make another trip through the internet.
 
 The full list of my future plans include:
-1.  Migrate from SmartThings to a local Z-Wave controller (USB stick plugged into my Hass.io RPi, likely the [Aeotech Z-Stick](https://www.amazon.com/Aeotec-Z-Stick-Z-Wave-create-gateway/dp/B00X0AWA6E){:target="_blank"}) and managed completely locally my Home Assistant.
+1.  Migrate from SmartThings to a local Z-Wave controller (USB stick plugged into my Hass.io RPi, likely the [Aeotech Z-Stick](https://www.amazon.com/Aeotec-Z-Stick-Z-Wave-create-gateway/dp/B00X0AWA6E?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=869c4575443e0b07f2c392ad2e544376&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"}) and managed completely locally my Home Assistant.
 2.  Alexa integration with Home Assistant (via [Haaska](https://github.com/auchter/haaska){:target="_blank"}), a likely pre-req for moving to the local Z-Wave controller.
 3.  Migrate my ADT wireless-but-not-smart security system to Home Assistant. Both so I have more control (ADT really doesn't want me fiddling with the devices **I own**), better expandability (integration with my existing smart locks), and because ADT just charges way too much for what they provide ($66/month for basic burglar monitoring, no smart devices, no cameras, no fire/smoke). I'll likely move to [Noonlight](https://noonlight.com/){:target="_blank"} which I read costs only $3/month and they provide integrations like IFTTT that I can trigger however I want to get them to contact the police for me.
 4.  Integrate my WyzeCams into my Home Assistant by flashing them with the RTSP-enabled firmware

@@ -36,7 +36,7 @@
   text-align: right;
 
   .nav-trigger {
-      display: none;
+    display: none;
   }
 
   .menu-icon {
@@ -47,7 +47,7 @@
     padding-top: 10px;
     text-align: center;
 
-    > svg path {
+    >svg path {
       fill: $brand-color;
     }
   }
@@ -61,12 +61,12 @@
     cursor: pointer;
   }
 
-  input ~ .trigger {
+  input~.trigger {
     clear: both;
     display: none;
   }
 
-  input:checked ~ .trigger {
+  input:checked~.trigger {
     display: block;
     padding-bottom: 5px;
   }
@@ -81,6 +81,7 @@
     &:not(:last-child) {
       margin-right: 0;
     }
+
     margin-left: 20px;
   }
 
@@ -98,7 +99,7 @@
       display: none;
     }
 
-    input ~ .trigger {
+    input~.trigger {
       display: block;
     }
 
@@ -109,6 +110,7 @@
       &:not(:last-child) {
         margin-right: 20px;
       }
+
       margin-left: auto;
     }
   }
@@ -121,7 +123,7 @@
     margin-left: -$spacing-unit / 2;
     margin-right: -$spacing-unit / 2;
 
-  @media screen and (min-width: $on-large) {
+    @media screen and (min-width: $on-large) {
       max-width: calc(100% + #{$spacing-unit * 2});
       margin-left: -$spacing-unit;
       margin-right: -$spacing-unit;
@@ -229,7 +231,7 @@
   margin-left: 0;
   list-style: none;
 
-  > li {
+  >li {
     margin-bottom: $spacing-unit;
   }
 }
@@ -303,8 +305,14 @@
   h5 {
     @include relative-font-size(1.125);
   }
+
   h6 {
     @include relative-font-size(1.0625);
+  }
+
+  .amazon-disclosure {
+    font-size: $small-font-size;
+    color: $brand-color;
   }
 }
 
@@ -312,19 +320,27 @@
 .social-media-list {
   display: table;
   margin: 0 auto;
+
   li {
     float: left;
     margin: 5px 10px 5px 0;
-    &:last-of-type { margin-right: 0 }
+
+    &:last-of-type {
+      margin-right: 0
+    }
+
     .svg-icon {
       color: $brand-color;
     }
+
     a {
       display: block;
       padding: $spacing-unit / 4;
       border: 1px solid $brand-color;
+
       &:hover {
         border-color: lighten($brand-color, 25%);
+
         .svg-icon {
           color: lighten($brand-color, 25%);
         }
@@ -340,12 +356,16 @@
  */
 .pagination {
   @extend .social-media-list;
+
   li {
-    a, div {
+
+    a,
+    div {
       min-width: 41px;
       text-align: center;
       box-sizing: border-box;
     }
+
     div {
       display: block;
       padding: $spacing-unit / 4;

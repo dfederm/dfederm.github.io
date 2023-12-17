@@ -35,12 +35,19 @@ layout: default
             <a href="{% link categories.html %}#{{category | uri_escape | downcase }}">{{ category }}</a>
             {%- if forloop.last == false %}, {% endif -%}
             {% endfor %}
-            {%- endif -%}</p>
+            {%- endif -%}
+        </p>
     </header>
 
     <div class="post-content e-content"
          itemprop="articleBody">
         {{ content }}
+
+        {%- if page.hasAmazonLinks == true -%}
+        <p class="amazon-disclosure">
+            Disclosure: As an Amazon Associate, I earn from qualifying purchases. This adds no extra cost to you, but helps me in a small way if you choose to purchase a product linked in this post.
+        </p>
+        {%- endif -%}
     </div>
 
     {%- if site.disqus.shortname -%}

@@ -4,6 +4,7 @@ title: Setting up a Security System with Home Assistant
 categories: [Home Automation]
 tags: [automation, home assistant, home automation, smart home, ifttt, z-wave]
 comments: true
+hasAmazonLinks: true
 ---
 
 **Update {{ "2020-06-03" | date: site.date_format }}:** Adjusted for breaking changes in version 0.110.
@@ -14,15 +15,15 @@ I've been [dabbling with home automation]({% post_url 2019-07-11-migrating-from-
 Admittedly, there was a bit of an up front cost in buying all the devices to replace my existing ones, especially since I decided to go with [Z-Wave](https://www.z-wave.com/){:target="_blank"} devices for my home, which are a little more expensive than [Zigbee](https://zigbeealliance.org/){:target="_blank"} ones. However, this can be mitigated by prioritizing the important sensors first and adding on over time. Also, for me at least it more than made up for the cost in just a few months after cancelling my monthly bill with ADT.
 
 My original security system was pretty basic, so I just ended up mimicking it. The devices I bought were:
-* [Aeotec Door/Window Sensors](https://www.amazon.com/gp/product/B01GK5D1PE){:target="_blank"} - At the time I bought the Gen5 ones which no longer seem available, and the Gen6 ones looks pretty bulky and expensive. Any basic window/door sensor would do here though.
-* [GoControl Glass Break Detector](https://www.amazon.com/gp/product/B01DSRGGXQ){:target="_blank"} - The living room and kitchen are connected and have quite a few windows, so my old system had a glass break sensor which I used this to replace. Honestly I'm not sure how well this works, and in general I had a hard time finding a Z-Wave glass break detector. Looking back it may have been better to bite the bullet and just buy a few extra window sensors instead of this.
-* [Aeotec Siren](https://www.amazon.com/gp/product/B00PKKM2HO){:target="_blank"} - This thing works great. It's quite loud and has a battery backup so you can't just unplug it from the wall to get it to stop. It's configurable enough too in terms of loudness and the tones it uses. I originally was hoping to use it as a door/window chime for when the alarm was not set, but it doesn't quite work for that and I went with a different solution instead.
+* [Aeotec Door/Window Sensors](https://www.amazon.com/gp/product/B01GK5D1PE?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=31f9576650a63bc0b982ca71eef12db4&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - At the time I bought the Gen5 ones which no longer seem available, and the Gen6 ones looks pretty bulky and expensive. Any basic window/door sensor would do here though.
+* [GoControl Glass Break Detector](https://www.amazon.com/gp/product/B01DSRGGXQ?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=2ac28a9b977d33ef0fe4dc213e41709c&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - The living room and kitchen are connected and have quite a few windows, so my old system had a glass break sensor which I used this to replace. Honestly I'm not sure how well this works, and in general I had a hard time finding a Z-Wave glass break detector. Looking back it may have been better to bite the bullet and just buy a few extra window sensors instead of this.
+* [Aeotec Siren](https://www.amazon.com/gp/product/B00PKKM2HO?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=394b9599d6742dc1aa8ec7484eec5090&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - This thing works great. It's quite loud and has a battery backup so you can't just unplug it from the wall to get it to stop. It's configurable enough too in terms of loudness and the tones it uses. I originally was hoping to use it as a door/window chime for when the alarm was not set, but it doesn't quite work for that and I went with a different solution instead.
 
 Some relevant devices I already had before this project are:
 * [Raspberry Pi 3 B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/){:target="_blank"} - Runs [Home Assistant](https://www.home-assistant.io/){:target="_blank"}
-* [Aeotec Z-Stick](https://www.amazon.com/gp/product/B00X0AWA6E){:target="_blank"} - Hub for my [Z-Wave](https://www.z-wave.com/){:target="_blank"} devices, plugged into the Pi
-* [Schlage Z-Wave Connect Locks](https://www.amazon.com/gp/product/B00AGK9KOG){:target="_blank"} - These work great. They're battery powered but last at least a year. Made by a company specializing in locks and they feel solid and secure.
-* [Alexa Echo Dot](https://www.amazon.com/Echo-Dot/dp/B07FZ8S74R){:target="_blank"} - Used with the [alexa_media_player](https://github.com/custom-components/alexa_media_player){:target="_blank"} custom component for voice notifications.
+* [Aeotec Z-Stick](https://www.amazon.com/Aeotec-Z-Stick-Z-Wave-create-gateway/dp/B00X0AWA6E?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=869c4575443e0b07f2c392ad2e544376&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - Hub for my [Z-Wave](https://www.z-wave.com/){:target="_blank"} devices, plugged into the Pi
+* [Schlage Z-Wave Connect Locks](https://www.amazon.com/gp/product/B00AGK9KOG?th=1&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=b78bcd5a0f6aeab045efd9674f1f29bd&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - These work great. They're battery powered but last at least a year. Made by a company specializing in locks and they feel solid and secure.
+* [Alexa Echo Dot](https://www.amazon.com/Echo-Dot/dp/B07FZ8S74R?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=6c61d099f0b1d43cdc9c60dee736a021&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} - Used with the [alexa_media_player](https://github.com/custom-components/alexa_media_player){:target="_blank"} custom component for voice notifications.
 
 ## Home Assistant configuration
 [Home Assistant](https://www.home-assistant.io/){:target="_blank"} has a built-in [Manual Alarm Control Panel](https://www.home-assistant.io/integrations/manual){:target="_blank"} which allows you to display a keypad in the lovelace UI as well as use automations to arms and disarm the alarm.
@@ -233,8 +234,8 @@ The final step in this project was to set up a wall panel so that we didn't have
 
 ![Mounted alarm panel](/assets/alarm-panel-mounted.jpg){: .center }
 
-For this, I bought another Raspberry Pi 3 B+, as well as a [touch screen Display](https://www.amazon.com/gp/product/B0153R2A9I){:target="_blank"} and
-[touch screen Case](https://www.amazon.com/gp/product/B01GQFUWIC){:target="_blank"}. Mounting a tablet probably would have been just as easy and cheaper if I already had an old one lying around, but I didn't.
+For this, I bought another Raspberry Pi 3 B+, as well as a [touch screen Display](https://www.amazon.com/gp/product/B0153R2A9I?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=1bf8af125902da507a8ec5b33c13a48c&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"} and
+[touch screen Case](https://www.amazon.com/gp/product/B01GQFUWIC?&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=3264a494aada7c4006f0b79b44f8a97c&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"}. Mounting a tablet probably would have been just as easy and cheaper if I already had an old one lying around, but I didn't.
 
 There are plenty of guides out there for setting up a Raspberry Pi in kiosk mode, and I honestly wouldn't consider myself an expert in this area, but the gist is that I installed Raspbian Lite, setup ssh for easy remoting, installed `chromium-browser`, and added the following to `~/.config/lxsession/LXDE/autostart`:
 
