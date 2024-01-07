@@ -8,7 +8,7 @@ toc: true
 hasAmazonLinks: true
 ---
 
-Lately I've been realizing that purchased digital media isn't really yours, and a [recent event](https://www.ign.com/articles/sony-pulls-discovery-videos-playstation-users-already-own-sparking-concern-over-our-digital-future){:target="_blank"} in particular sparked me into doing something I've been wanting to do for a while now: build a NAS to contain all my legally purchased digital media, physical backups of physical media, as well as personal documents and photos.
+Lately I've been realizing that purchased digital media isn't really yours, and a [recent event](https://www.ign.com/articles/sony-pulls-discovery-videos-playstation-users-already-own-sparking-concern-over-our-digital-future){:target="_blank"} in particular sparked me into doing something I've been wanting to do for a while now: build a NAS to contain all my legally purchased digital media, digital backups of physical media, as well as personal documents and photos.
 
 First, why build a NAS rather than buy a prebuilt one like the [Synology DS1522+](https://www.amazon.com/Synology-5-bay-DiskStation-DS1522-Diskless/dp/B0B4DFBRZV?ref_=ast_sto_dp&amp;th=1&_encoding=UTF8&tag=dfederm-20&linkCode=ur2&linkId=f33bfb661653b318306e415a46022fa3&camp=1789&creative=9325){:target="_blank"}{:rel="nofollow"}? There are pros and cons to each approach, but the DIY was attractive to me due to the better expansion, cost effectiveness, and subjectively I just have fun building PCs.
 
