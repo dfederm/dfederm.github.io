@@ -59,7 +59,7 @@ There is a search feature which can help if you know the property, item, target,
 
 For a given target, there is another target listed to the right which explains why the target executed. If you hover, you can see specifically whether it was because of `BeforeTargets`, `AfterTargets`, or `DependsOnTargets`. You can also tell whether the target actually executed based on its condition by whether it's dimmed.
 
-A non-obvious trick is that if you double-click on a project or target, it will open the file it's contained in. This can help give you a glance into the logic of the target. You can take this a bit further and right-click on a project and select "Prepocess", which will give you the completely flattened XML for the entire project, exactly like the `-pp` MSBuild switch. The preprocess can be extremely helpful in understanding the build logic.
+A non-obvious trick is that if you double-click on a project or target, it will open the file it's contained in. This can help give you a glance into the logic of the target. You can take this a bit further and right-click on a project and select "Preprocess", which will give you the completely flattened XML for the entire project, exactly like the `-pp` MSBuild switch. The preprocess can be extremely helpful in understanding the build logic.
 
 As a general guide, you will mostly rely on the target execution log for determine what happened, while the preprocess will help answer why it happened. For example, the target execution log will show that a property was set to some specific value, while the preprocess will show the logic of why it was set to that value.
 
