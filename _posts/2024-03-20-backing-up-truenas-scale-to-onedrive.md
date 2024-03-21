@@ -13,7 +13,7 @@ TrueNAS Scale allows [custom docker containers](https://www.truenas.com/docs/sca
 
 The first step is to create a new dataset which will contain your [rclone configuration file](https://rclone.org/docs/#config-config-file){:target="_blank"}. I named mine "rclone" in my root "Default" dataset. I used the SMB share type, since that's what I plan on using, but left the rest of the settings as default.
 
-Next you'll need to configure the SMB share for the dataset so that you can manage the config file from other machines. For mine I just added the SMB share to the `/mnt/Default/rclone` path and used the default settings. When creating a new share it'll ask to restart the SMB service.
+Next you'll need to configure the SMB share for the dataset so that you can manage the config file from other machines. For mine, I just added the SMB share to the `/mnt/Default/rclone` path and used the default settings. When creating a new share it'll ask to restart the SMB service.
 
 Connect to the new SMB share and create a single file inside called `rclone.conf`. This file should be in the [INI](https://en.wikipedia.org/wiki/INI_file#Format){:target="_blank"} and look like this:
 
@@ -46,7 +46,7 @@ I found [robinostlund/docker-rclone-sync](https://github.com/robinostlund/docker
 As per the docs for that image, a few environment variables need to be set to configure it. Under the "Container Environment Variables" section, add the following environment variables:
 
 * `SYNC_SRC=/rclone-data` - This can be any path, as long as it matched what you use below in the Storage section.
-* `SYNC_DEST=onedrivedavid:/nas-backup` - The left hand side of the value needs to match the section header in the ini file, while the right hand side is a path within OneDrive you'd like to back up to.
+* `SYNC_DEST=onedrivedavid:/nas-backup` - The left-hand side of the value needs to match the section header in the ini file, while the right-hand side is a path within OneDrive you'd like to back up to.
 * `CRON=0 0 * * *` - To schedule the sync daily at midnight.
 * `CRON_ABORT=0 6 * * *` - Schedules an abort in case the sync is taking too long.
 * `FORCE_SYNC=1` - This syncs on container startup, which makes for easier testing.
@@ -72,4 +72,4 @@ Once the container is deployed, you can click on it and under "Workloads" there 
 
 ![Docker Container Logs](/assets/images/truenas-onedrive/container-logs.png){:.center}
 
-And that's all there is to it! You can now have the benefits of storing your data locally in your NAS, while having the peice of mind of having a remote backup.
+And that's all there is to it! You can now have the benefits of storing your data locally in your NAS, while having the piece of mind of having a remote backup.
