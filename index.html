@@ -22,6 +22,11 @@ layout: default
                 </a>
             </h3>
             {{ post.excerpt }}
+            {% if post.excerpt != post.content %}
+                <p>
+                    <a href="{{ post.url | relative_url }}">Read more</a>
+                </p>
+            {% endif %}
         </li>
         {%- endfor -%}
     </ul>
