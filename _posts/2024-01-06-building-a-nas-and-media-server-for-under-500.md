@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Building a NAS and Media Server for under $500
-categories: [Home Networking]
-tags: [Home Networking, NAS, Media Server, Jellyfin, TrueNAS]
+categories: [Home Networking, Self Hosting]
+tags: [Home Networking, Self Hosting, NAS, Media Server, Jellyfin, TrueNAS]
 comments: true
 toc: true
 hasAmazonLinks: true

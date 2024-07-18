@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setting up a Security System with Home Assistant
-categories: [Home Automation]
+categories: [Home Automation, Self Hosting]
 tags: [automation, home assistant, home automation, smart home, ifttt, z-wave]
 comments: true
 hasAmazonLinks: true

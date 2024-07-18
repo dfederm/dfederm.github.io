@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Migrating from WebCORE to Home Assistant
-categories: [Home Automation]
+categories: [Home Automation, Self Hosting]
 tags: [alexa, automation, home assistant, home automation, smart home, webcore, z-wave]
 comments: true
 hasAmazonLinks: true

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Backing up TrueNAS Scale to OneDrive
-categories: [Home Networking]
-tags: [Home Networking, NAS, TrueNAS, OneDrive, rclone]
+categories: [Home Networking, Self Hosting]
+tags: [Home Networking, Self Hosting, NAS, TrueNAS, OneDrive, rclone]
 comments: true
 toc: true
 ---
