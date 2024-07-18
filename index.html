@@ -26,29 +26,41 @@ layout: default
         {%- endfor -%}
     </ul>
 
+    {% if paginator.total_pages > 1 %}
     <div class="pager">
         <ul class="pagination">
             {%- if paginator.previous_page %}
             <li><a href="{{ paginator.previous_page_path | relative_url }}"
-                   class="previous-page">{{ paginator.previous_page }}</a></li>
+                   class="previous-page">&laquo;</a></li>
             {%- else %}
             <li>
-                <div class="pager-edge">•</div>
+                <div class="pager-edge">&laquo;</div>
             </li>
             {%- endif %}
+
+            {% for page in (1..paginator.total_pages) %}
             <li>
-                <div class="current-page">{{ paginator.page }}</div>
+                {% if page == paginator.page %}
+                <div class="current-page">{{ page }}</div>
+                {% elsif page == 1 %}
+                <a href="{{ '/' | relative_url }}">{{ page }}</a>
+                {% else %}
+                <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+                {% endif %}
             </li>
+            {% endfor %}
+
             {%- if paginator.next_page %}
             <li><a href="{{ paginator.next_page_path | relative_url }}"
-                   class="next-page">{{ paginator.next_page }}</a></li>
+                   class="next-page">&raquo;</a></li>
             {%- else %}
             <li>
-                <div class="pager-edge">•</div>
+                <div class="pager-edge">&raquo;</div>
             </li>
             {%- endif %}
         </ul>
     </div>
+    {%- endif -%}
 
     {%- endif -%}
 
