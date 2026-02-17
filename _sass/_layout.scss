@@ -389,3 +389,25 @@
     width: calc(50% - (#{$spacing-unit} / 2));
   }
 }
+
+/**
+ * Callout boxes (note, warning)
+ */
+.note, .warning {
+  padding: 1rem;
+  border-left: 4px solid;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+
+  p:last-child { margin-bottom: 0; }
+}
+
+.note {
+  background-color: #1e3a5f;
+  border-color: #2196f3;
+}
+
+.warning {
+  background-color: #4a3f1f;
+  border-color: #ffc107;
+}
